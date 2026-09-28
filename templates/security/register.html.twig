@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h1 class="text-2xl font-bold font-display mb-6 text-center">Créer un compte</h1>
+    {{ form_start(form, {attr: {class: 'space-y-4 bg-white p-6 rounded-2xl border border-gray-100'}}) }}
+        <div>{{ form_label(form.firstName, 'Prénom') }}{{ form_widget(form.firstName, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}{{ form_errors(form.firstName) }}</div>
+        <div>{{ form_label(form.lastName, 'Nom') }}{{ form_widget(form.lastName, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}{{ form_errors(form.lastName) }}</div>
+        <div>{{ form_label(form.email, 'Email') }}{{ form_widget(form.email, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}{{ form_errors(form.email) }}</div>
+        <div>{{ form_label(form.plainPassword.first, 'Mot de passe') }}{{ form_widget(form.plainPassword.first, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}</div>
+        <div>{{ form_label(form.plainPassword.second, 'Confirmer le mot de passe') }}{{ form_widget(form.plainPassword.second, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}{{ form_errors(form.plainPassword) }}</div>
+        <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">Créer mon compte</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

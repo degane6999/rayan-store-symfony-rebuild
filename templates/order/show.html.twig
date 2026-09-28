@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Commande {{ order.orderNumber }} — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold font-display mb-2">Commande {{ order.orderNumber }}</h1>
+    <p class="text-sm text-gray-500 mb-6">Statut : <span class="font-medium">{{ order.status }}</span></p>
+
+    <div class="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100 mb-6">
+        {% for item in order.items %}
+            <div class="flex justify-between p-4 text-sm">
+                <span>{{ item.productNameSnapshot }} × {{ item.quantity }}</span>
+                <span>{{ item.unitPriceSnapshot }} €</span>
+            </div>
+        {% endfor %}
+    </div>
+    <p class="text-xl font-bold mb-6">Total : {{ order.totalAmount }} €</p>
+
+    {% if order.cancellable %}
+        <form method="post" action="{{ path('app_order_cancel', {orderNumber: order.orderNumber}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('order-cancel-' ~ order.id) }}">
+            <button type="submit" class="px-4 py-2 bg-red-50 text-red-600 font-medium rounded-lg hover:bg-red-100">Annuler la commande</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

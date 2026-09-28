@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}Catalogue — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold font-display mb-6">{% if q %}Résultats pour « {{ q }} »{% else %}Catalogue{% endif %}</h1>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {% for product in products %}
+            {% include 'partials/_product_card.html.twig' %}
+        {% else %}
+            <p class="text-gray-500 col-span-4">Aucun produit trouvé.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

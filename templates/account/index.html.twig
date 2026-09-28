@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon compte — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold font-display mb-6">Mon compte</h1>
+    <div class="bg-white rounded-2xl border border-gray-100 p-6 space-y-2 mb-6">
+        <p><span class="text-gray-500">Nom :</span> {{ user.fullName }}</p>
+        <p><span class="text-gray-500">Email :</span> {{ user.email }}</p>
+        <p><span class="text-gray-500">Membre depuis :</span> {{ user.createdAt|date('d/m/Y') }}</p>
+    </div>
+
+    <div class="flex gap-4">
+        <a href="{{ path('app_account_export') }}" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-lg">Exporter mes données (RGPD)</a>
+        <form method="post" action="{{ path('app_account_delete') }}" onsubmit="return confirm('Confirmer la suppression de votre compte ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('account-delete') }}">
+            <button type="submit" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 text-sm font-medium rounded-lg">Supprimer mon compte</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

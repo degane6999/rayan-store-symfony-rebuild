@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mes commandes — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold font-display mb-6">Mes commandes</h1>
+    <div class="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100">
+        {% for order in orders %}
+            <a href="{{ path('app_order_show', {orderNumber: order.orderNumber}) }}" class="flex items-center justify-between p-4 hover:bg-gray-50">
+                <div>
+                    <p class="font-medium">{{ order.orderNumber }}</p>
+                    <p class="text-sm text-gray-500">{{ order.createdAt|date('d/m/Y') }} — {{ order.status }}</p>
+                </div>
+                <span class="font-semibold">{{ order.totalAmount }} €</span>
+            </a>
+        {% else %}
+            <p class="p-4 text-gray-500">Aucune commande pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

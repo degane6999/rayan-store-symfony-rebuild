@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Paiement — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <h1 class="text-2xl font-bold font-display mb-6">Finaliser la commande</h1>
+
+    <div class="bg-white rounded-2xl border border-gray-100 p-4 mb-6">
+        {% for item in cart.items %}
+            <div class="flex justify-between text-sm py-1">
+                <span>{{ item.product.name }} × {{ item.quantity }}</span>
+                <span>{{ item.product.price }} €</span>
+            </div>
+        {% endfor %}
+        <div class="flex justify-between font-bold pt-3 mt-3 border-t border-gray-100">
+            <span>Total</span>
+            <span>{{ (cart.totalCents / 100)|number_format(2) }} €</span>
+        </div>
+    </div>
+
+    {{ form_start(form, {attr: {class: 'space-y-4'}}) }}
+        <div>{{ form_label(form.fullName, 'Nom complet') }}{{ form_widget(form.fullName, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}</div>
+        <div>{{ form_label(form.address, 'Adresse') }}{{ form_widget(form.address, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}</div>
+        <div class="grid grid-cols-2 gap-4">
+            <div>{{ form_label(form.postalCode, 'Code postal') }}{{ form_widget(form.postalCode, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}</div>
+            <div>{{ form_label(form.city, 'Ville') }}{{ form_widget(form.city, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}</div>
+        </div>
+        <div>{{ form_label(form.country, 'Pays') }}{{ form_widget(form.country, {attr: {class: 'w-full px-3 py-2 border border-gray-200 rounded-lg'}}) }}</div>
+        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">Confirmer la commande</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ product.name }} — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="aspect-square bg-gray-50 rounded-2xl flex items-center justify-center">
+        <svg class="w-24 h-24 text-gray-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    </div>
+    <div>
+        <p class="text-sm font-medium text-blue-600 uppercase tracking-wide">{{ product.category.name }}</p>
+        <h1 class="text-3xl font-bold font-display mt-1 mb-4">{{ product.name }}</h1>
+        <p class="text-gray-600 mb-6">{{ product.description }}</p>
+        <div class="text-3xl font-bold mb-2">{{ product.price }} €</div>
+        <p class="text-sm text-gray-500 mb-6">
+            {% if product.stock > 0 %}{{ product.stock }} en stock{% else %}<span class="text-red-600">Rupture de stock</span>{% endif %}
+        </p>
+
+        {% if app.user %}
+            <form method="post" action="{{ path('app_cart_add', {slug: product.slug}) }}" class="flex items-center gap-3">
+                <input type="hidden" name="_token" value="{{ csrf_token('cart-add') }}">
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="w-20 px-3 py-2 border border-gray-200 rounded-lg">
+                <button type="submit" {{ product.stock == 0 ? 'disabled' : '' }} class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 text-white font-medium rounded-lg transition-colors">Ajouter au panier</button>
+            </form>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg">Connectez-vous pour acheter</a>
+        {% endif %}
+
+        <div class="mt-10">
+            <h2 class="font-semibold mb-3">Avis clients</h2>
+            {% for review in product.reviews %}
+                <div class="border-b border-gray-100 py-3">
+                    <div class="text-yellow-500 text-sm">{% for i in 1..review.rating %}★{% endfor %}</div>
+                    <p class="text-sm text-gray-700 mt-1">{{ review.comment }}</p>
+                </div>
+            {% else %}
+                <p class="text-sm text-gray-500">Aucun avis pour ce produit.</p>
+            {% endfor %}
+
+            {% if app.user %}
+                <form method="post" action="{{ path('app_product_review', {slug: product.slug}) }}" class="mt-4 space-y-2">
+                    <input type="hidden" name="_token" value="{{ csrf_token('review-' ~ product.id) }}">
+                    <select name="rating" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                        {% for i in 5..1 %}<option value="{{ i }}">{{ i }} étoile{{ i > 1 ? 's' : '' }}</option>{% endfor %}
+                    </select>
+                    <textarea name="comment" rows="3" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" placeholder="Votre avis..."></textarea>
+                    <button type="submit" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg">Publier l'avis</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
