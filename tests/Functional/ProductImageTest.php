@@ -17,19 +17,19 @@ class ProductImageTest extends DatabaseWebTestCase
         $client = static::createClient();
         $this->prepareDatabase();
         $product = $this->makeProduct($this->makeCategory(), 'Casque Test', 'casque-test');
-        $product->setImagePath('products/casque-audio-sans-fil.svg');
+        $product->setImagePath('products/sony-wh-1000xm5.svg');
         $this->em->flush();
 
         $crawler = $client->request('GET', '/catalogue');
         $img = $crawler->filter('img[alt="Casque Test"]');
         $this->assertCount(1, $img);
-        $this->assertSame('/images/products/casque-audio-sans-fil.svg', $img->attr('src'));
+        $this->assertSame('/images/products/sony-wh-1000xm5.svg', $img->attr('src'));
 
         $crawler = $client->request('GET', '/produit/casque-test');
         $this->assertCount(1, $crawler->filter('img[alt="Casque Test"]'));
 
         // Le fichier référencé existe bien dans public/.
-        $this->assertFileExists(static::getContainer()->getParameter('kernel.project_dir').'/public/images/products/casque-audio-sans-fil.svg');
+        $this->assertFileExists(static::getContainer()->getParameter('kernel.project_dir').'/public/images/products/sony-wh-1000xm5.svg');
     }
 
     public function testProductWithoutImageShowsPlaceholder(): void

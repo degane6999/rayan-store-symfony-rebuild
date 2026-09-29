@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EEF2FF"/><stop offset="1" stop-color="#C7D2FE"/></linearGradient>
+<radialGradient id="s" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#000" stop-opacity="0.10"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="800" fill="url(#g)"/>
+<circle cx="400" cy="390" r="250" fill="#fff" opacity="0.55"/>
+<ellipse cx="400" cy="640" rx="190" ry="26" fill="url(#s)"/>
+<svg x="220" y="210" width="360" height="360" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" color="#4338CA" style="color:#4338CA" xmlns="http://www.w3.org/2000/svg"><path d="M232,168h-8V72a24,24,0,0,0-24-24H56A24,24,0,0,0,32,72v96H24a8,8,0,0,0-8,8v16a24,24,0,0,0,24,24H216a24,24,0,0,0,24-24V176A8,8,0,0,0,232,168ZM112,72h32a8,8,0,0,1,0,16H112a8,8,0,0,1,0-16ZM224,192a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8v-8H224Z"></path></svg>
+</svg>

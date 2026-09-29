@@ -19,7 +19,7 @@ application), conformément au cahier des charges fonctionnel.
 | # | Fonctionnalité | État |
 |---|---|---|
 | 1 | Gestion des utilisateurs : inscription, connexion, rôles client / administrateur | ✅ — modification du profil à venir |
-| 2 | Catalogue : liste, fiche produit (description, prix, stock, image), recherche par nom et par catégorie | ✅ — tri à venir |
+| 2 | Catalogue : liste, fiche produit (marque, description, prix, prix barré et remise, stock, image), recherche par nom et par catégorie, ajout au panier depuis le catalogue | ✅ — tri à venir |
 | 3 | Panier et commande : ajout, suppression, quantités, validation et création de la commande | ✅ |
 | 4 | Paiement en ligne : paiement simulé, confirmation de commande après paiement | ✅ |
 | 5 | Suivi des commandes : historique client, statuts, annulation | ✅ — changement de statut côté admin à venir |
@@ -63,6 +63,13 @@ Comptes de démonstration (mot de passe `password123`) :
 | Gestionnaire du catalogue | `vendeur@rayan.store` |
 | Administrateur | `admin@rayan.store` |
 
+## Photos des produits
+
+Les données de démonstration (`php bin/console app:seed`) contiennent 10 produits
+de marque. Pour chaque produit, l'application cherche une photo dans
+`public/images/products/` nommée d'après son identifiant (`iphone-16-pro.jpg`,
+`.png` ou `.webp`) ; à défaut, elle affiche l'illustration `.svg` fournie.
+
 ## Sécurité
 
 - Mots de passe hachés avec **bcrypt** (coût 12)
@@ -86,18 +93,18 @@ même instant : avec 10 articles en stock, exactement 10 commandes réussissent.
 ## Tests et qualité
 
 ```bash
-php vendor/bin/phpunit                          # 60 tests
-php vendor/bin/phpunit --testsuite unit         # 31 tests unitaires
-php vendor/bin/phpunit --testsuite functional   # 26 tests fonctionnels
+php vendor/bin/phpunit                          # 65 tests
+php vendor/bin/phpunit --testsuite unit         # 34 tests unitaires
+php vendor/bin/phpunit --testsuite functional   # 28 tests fonctionnels
 php vendor/bin/phpunit --testsuite concurrency  # 3 tests de concurrence
 ```
 
 | Contrôle | Résultat |
 |---|---|
-| PHPUnit | 60 tests, 135 assertions, 0 échec |
+| PHPUnit | 65 tests, 151 assertions, 0 échec |
 | PHPStan niveau 8 | 0 erreur |
 | PHP-CS-Fixer (@Symfony) | 0 écart |
-| Couverture des lignes (PCOV) | 58,5 % |
+| Couverture des lignes (PCOV) | 59,1 % |
 
 ## Structure
 
@@ -112,7 +119,7 @@ src/
 templates/      vues Twig
 migrations/     schéma de base de données versionné
 tests/          Unit, Functional, Concurrency
-public/images/  illustrations des produits
+public/images/  photos et illustrations des produits
 ```
 
 ## Historique du projet

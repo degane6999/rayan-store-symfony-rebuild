@@ -4,5 +4,5 @@
 <rect width="800" height="800" fill="url(#g)"/>
 <circle cx="400" cy="390" r="250" fill="#fff" opacity="0.55"/>
 <ellipse cx="400" cy="640" rx="190" ry="26" fill="url(#s)"/>
-<svg x="220" y="210" width="360" height="360" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" color="#1D4ED8" style="color:#1D4ED8" xmlns="http://www.w3.org/2000/svg"><path d="M232,128v56a24,24,0,0,1-24,24H192a24,24,0,0,1-24-24V144a24,24,0,0,1,24-24h23.65a87.71,87.71,0,0,0-87-80H128a88,88,0,0,0-87.64,80H64a24,24,0,0,1,24,24v40a24,24,0,0,1-24,24H48a24,24,0,0,1-24-24V128A104.11,104.11,0,0,1,201.89,54.66,103.41,103.41,0,0,1,232,128Z"></path></svg>
+<svg x="220" y="210" width="360" height="360" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" color="#1D4ED8" style="color:#1D4ED8" xmlns="http://www.w3.org/2000/svg"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM80,32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"></path></svg>
 </svg>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use App\Util\Money;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -40,6 +41,16 @@ class Product
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(length: 80, options: ['default' => ''])]
+    private string $brand = '';
+
+    /**
+     * Prix de référence avant remise (affiché barré). Null = pas de remise.
+     * Même format que $price : DECIMAL(10,2) sous forme de chaîne.
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $compareAtPrice = null;
 
     /** Chemin de l'image relatif à public/images/ (ex. « products/casque.svg »). Null = pictogramme par défaut. */
     #[ORM\Column(length: 255, nullable: true)]
@@ -148,6 +159,44 @@ class Product
     public function restoreStock(int $quantity): void
     {
         $this->stock += $quantity;
+    }
+
+    public function getBrand(): string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): void
+    {
+        $this->brand = $brand;
+    }
+
+    public function getCompareAtPrice(): ?string
+    {
+        return $this->compareAtPrice;
+    }
+
+    public function setCompareAtPrice(?string $compareAtPrice): void
+    {
+        $this->compareAtPrice = $compareAtPrice;
+    }
+
+    /**
+     * Pourcentage de remise arrondi (ex. 8 pour « -8 % »), calculé en centimes
+     * pour éviter les erreurs d'arrondi. Null s'il n'y a pas de vraie remise.
+     */
+    public function getDiscountPercent(): ?int
+    {
+        if (null === $this->compareAtPrice) {
+            return null;
+        }
+        $reference = Money::toCents($this->compareAtPrice);
+        $current = Money::toCents($this->price);
+        if ($reference <= $current || 0 === $reference) {
+            return null;
+        }
+
+        return (int) round(($reference - $current) * 100 / $reference);
     }
 
     public function getImagePath(): ?string
