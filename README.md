@@ -124,10 +124,7 @@ public/images/  photos et illustrations des produits
 
 ## Historique du projet
 
-Un premier prototype a été réalisé en React + Supabase. Ne répondant pas au
-cahier des charges (application Symfony, tests, intégrité du stock),
-l'application a été reconstruite en Symfony en septembre 2026, avec l'aide d'un
-assistant IA (Claude).
+Application Symfony monolithique, comme le prévoit le cahier des charges, avec tests automatisés, intégrité du stock et sécurité des accès. Le développement a été réalisé avec l'appui d'un assistant IA . Les choix techniques et les résultats des tests sont présentés dans le dossier projet et se reproduisent avec les commandes de la section « Tests et qualité ».
 
 ## Évolutions prévues
 
