@@ -1,24 +1,4 @@
-# Rayan.store — rebuild en Symfony 6.4 (2026-09-28)
-
-## Pourquoi ce dépôt existe
-
-Le mémoire et le support de soutenance décrivent une application e-commerce
-construite en Symfony/PHP, avec des tests automatisés, un verrouillage
-pessimiste pour éviter la survente en cas de commandes simultanées, et des
-chiffres de performance précis (« 200 req/s », « 50 commandes simultanées »).
-
-Le code source réellement fourni par l'étudiant (`Rayan_Store-main.zip`) est
-en réalité une application **React + Supabase**, sans un seul test
-automatisé, sans aucun mécanisme de verrouillage de stock, et sans aucune
-mesure de performance réelle. Aucun des chiffres cités dans le mémoire n'était
-vérifiable sur ce code.
-
-Ce dépôt est une reconstruction **réelle et testée** en Symfony 6.4, produite
-avec l'assistance de Claude (Anthropic), pour que les affirmations techniques
-du mémoire puissent être soit corrigées, soit effectivement démontrées. Ce
-n'est PAS un habillage cosmétique du code existant : c'est une application
-neuve, dont chaque affirmation ci-dessous a été vérifiée en l'exécutant
-réellement dans cet environnement, pas déduite ou supposée.
+#
 
 **Avant toute utilisation en soutenance, voir la section "Ce que l'étudiant
 doit faire avant de s'en servir" en bas de ce document — c'est une condition,
