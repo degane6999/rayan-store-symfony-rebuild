@@ -31,14 +31,28 @@ pas une formalité.**
 | Vérification | Résultat mesuré | Commande pour le reproduire |
 |---|---|---|
 | Tests unitaires | **31/31 passent** | `php vendor/bin/phpunit --testsuite unit` |
-| Tests fonctionnels (HTTP, vraie base MariaDB) | **24/24 passent** | `php vendor/bin/phpunit --testsuite functional` |
+| Tests fonctionnels (HTTP, vraie base MariaDB) | **26/26 passent** | `php vendor/bin/phpunit --testsuite functional` |
 | Tests de concurrence (voir plus bas) | **3/3 passent** | `php vendor/bin/phpunit --testsuite concurrency` |
 | Analyse statique PHPStan niveau 8 (strict) | **0 erreur** | `php phpstan.phar analyse` |
 | Style de code PHP-CS-Fixer (règles @Symfony) | **0 violation** | `php php-cs-fixer.phar fix --dry-run` |
 | Parcours complet réel (login → panier → checkout → commande) | Testé via HTTP réel (curl), commande créée en base, stock décrémenté correctement | voir `tests/Functional/CartAndCheckoutTest.php` |
 
-Total : **58 tests automatisés réels**, tous exécutés dans cet environnement,
+Total : **60 tests automatisés réels**, tous exécutés dans cet environnement,
 pas rédigés puis laissés de côté.
+
+---
+
+## Ajout du 29/09/2026 — images produits
+
+- `Product::$imagePath` (colonne `image_path`, migration `Version20260929080000`) :
+  chemin relatif à `public/images/`. Sans image, le pictogramme par défaut s'affiche.
+- 10 illustrations SVG (une par produit de démo) dans `public/images/products/`,
+  affectées par `app:seed`.
+- Le serveur PHP intégré est lancé sans script routeur (`php -S 0.0.0.0:8000 -t public`) :
+  avec `public/index.php` en routeur, les fichiers statiques (images) passaient par
+  Symfony et renvoyaient une erreur.
+- 2 tests fonctionnels (`ProductImageTest`) : image affichée avec texte alternatif,
+  pictogramme quand il n'y a pas d'image.
 
 ---
 
@@ -106,7 +120,7 @@ comme preuve, montrable au jury.
 | Affirmation du mémoire | Réalité vérifiée ici |
 |---|---|
 | Stack Symfony/PHP | Le code livré était React + Supabase. Cette reconstruction Symfony 6.4.46 / PHP 8.4 / MariaDB 10.11 est neuve, datée du 28/09/2026, sans historique Git de plusieurs mois. |
-| 62 tests automatisés, 92.1 % de couverture | 58 tests (31 unitaires + 24 fonctionnels + 3 concurrence). Couverture mesurée avec PCOV : 58,5 % des lignes (les tests de concurrence, exécutés dans des processus séparés, ne sont pas comptés). |
+| 62 tests automatisés, 92.1 % de couverture | 60 tests (31 unitaires + 26 fonctionnels + 3 concurrence). Couverture mesurée avec PCOV : 58,5 % des lignes (les tests de concurrence, exécutés dans des processus séparés, ne sont pas comptés). |
 | 200 req/s | Aucune mesure de charge HTTP (ab/wrk) n'a été refaite dans cette reconstruction. Ne pas réutiliser ce chiffre : il n'a jamais été mesuré sur le code réel, ni dans l'ancienne tentative ni ici. Si ce chiffre doit apparaître au mémoire, il doit d'abord être mesuré (voir section suivante). |
 | 50 commandes simultanées gérées correctement | **Vérifié et reproductible** (voir ci-dessus) : exactement stock-many commandes réussissent, jamais plus, sous 50 accès concurrents réels au niveau base de données. |
 | Verrouillage pessimiste (`PESSIMISTIC_WRITE`) | Réellement implémenté dans `src/Service/OrderService.php`, avec verrouillage en ordre déterministe (tri par ID produit croissant) pour éviter les deadlocks entre transactions concurrentes. |
@@ -147,11 +161,11 @@ php bin/console doctrine:migrations:migrate --no-interaction
 APP_ENV=test php bin/console doctrine:migrations:migrate --no-interaction
 php bin/console app:seed                      # données de démo (mot de passe : password123)
 
-php vendor/bin/phpunit                         # les 58 tests, y compris la concurrence
+php vendor/bin/phpunit                         # les 60 tests, y compris la concurrence
 php phpstan.phar analyse --memory-limit=512M   # 0 erreur attendue
 php php-cs-fixer.phar fix --dry-run --allow-risky=yes  # 0 violation attendue
 
-php -S 127.0.0.1:8000 -t public public/index.php   # lancer le site
+php -S 127.0.0.1:8000 -t public                    # lancer le site
 ```
 
 Nécessite MariaDB/MySQL accessible via `DATABASE_URL` (voir `.env` /

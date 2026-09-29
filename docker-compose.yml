@@ -32,7 +32,7 @@ services:
       sh -c "
         php bin/console doctrine:migrations:migrate --no-interaction &&
         php bin/console app:seed &&
-        php -S 0.0.0.0:8000 -t public public/index.php
+        php -S 0.0.0.0:8000 -t public
       "
 
 volumes:

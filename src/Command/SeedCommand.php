@@ -69,6 +69,8 @@ class SeedCommand extends Command
                 $stock,
                 $categories[$catSlug]
             );
+            // Illustration fournie avec le projet : public/images/products/<slug>.svg
+            $product->setImagePath('products/'.$slug.'.svg');
             $this->em->persist($product);
         }
 

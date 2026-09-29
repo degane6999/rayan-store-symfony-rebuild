@@ -41,6 +41,10 @@ class Product
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
 
+    /** Chemin de l'image relatif à public/images/ (ex. « products/casque.svg »). Null = pictogramme par défaut. */
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imagePath = null;
+
     /** @var Collection<int, Review> */
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class)]
     private Collection $reviews;
@@ -144,6 +148,16 @@ class Product
     public function restoreStock(int $quantity): void
     {
         $this->stock += $quantity;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath(?string $imagePath): void
+    {
+        $this->imagePath = $imagePath;
     }
 
     public function getCategory(): Category
