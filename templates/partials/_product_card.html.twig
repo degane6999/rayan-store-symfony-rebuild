@@ -29,9 +29,9 @@
         {% endif %}
         <div class="flex items-end justify-between gap-2 pt-1 mt-auto">
             <div class="flex flex-wrap items-baseline gap-x-1.5 min-w-0">
-                <span class="text-lg font-bold text-gray-900 whitespace-nowrap">{{ product.price }} €</span>
+                <span class="text-lg font-bold text-gray-900 whitespace-nowrap">{{ product.price|number_format }} €</span>
                 {% if product.discountPercent %}
-                    <span class="text-sm text-gray-400 line-through whitespace-nowrap">{{ product.compareAtPrice }} €</span>
+                    <span class="text-sm text-gray-400 line-through whitespace-nowrap">{{ product.compareAtPrice|number_format }} €</span>
                 {% endif %}
             </div>
             {% if app.user %}

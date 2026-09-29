@@ -38,7 +38,7 @@ class HomeAndCatalogTest extends DatabaseWebTestCase
 
         $client->request('GET', '/produit/enceinte-test');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('body', '42.50');
+        $this->assertSelectorTextContains('body', "42,50\u{a0}€");
     }
 
     public function testUnknownProductReturns404(): void

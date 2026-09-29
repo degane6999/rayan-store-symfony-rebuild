@@ -14,9 +14,9 @@
         <h1 class="text-3xl font-bold font-display mt-1 mb-4">{{ product.name }}</h1>
         <p class="text-gray-600 mb-6">{{ product.description }}</p>
         <div class="flex items-baseline gap-3 mb-2">
-            <span class="text-3xl font-bold">{{ product.price }} €</span>
+            <span class="text-3xl font-bold">{{ product.price|number_format }} €</span>
             {% if product.discountPercent %}
-                <span class="text-lg text-gray-400 line-through">{{ product.compareAtPrice }} €</span>
+                <span class="text-lg text-gray-400 line-through">{{ product.compareAtPrice|number_format }} €</span>
                 <span class="discount-badge bg-red-500 text-white text-sm font-bold px-2 py-0.5 rounded-full">-{{ product.discountPercent }}%</span>
             {% endif %}
         </div>

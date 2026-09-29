@@ -10,7 +10,7 @@
                     <p class="font-medium">{{ order.orderNumber }}</p>
                     <p class="text-sm text-gray-500">{{ order.createdAt|date('d/m/Y') }} — {{ order.status }}</p>
                 </div>
-                <span class="font-semibold">{{ order.totalAmount }} €</span>
+                <span class="font-semibold">{{ order.totalAmount|number_format }} €</span>
             </a>
         {% else %}
             <p class="p-4 text-gray-500">Aucune commande pour le moment.</p>

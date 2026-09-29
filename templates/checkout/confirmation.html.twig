@@ -5,7 +5,7 @@
     <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">✓</div>
     <h1 class="text-2xl font-bold font-display mb-2">Merci pour votre commande !</h1>
     <p class="text-gray-600 mb-6">Numéro de commande : <strong>{{ order.orderNumber }}</strong></p>
-    <p class="text-3xl font-bold mb-2">{{ order.totalAmount }} €</p>
+    <p class="text-3xl font-bold mb-2">{{ order.totalAmount|number_format }} €</p>
     <p class="text-sm text-gray-500 mb-8">Paiement accepté — référence {{ order.paymentReference }}</p>
     <a href="{{ path('app_orders') }}" class="text-blue-600 font-medium">Voir mes commandes &rarr;</a>
 </div>

@@ -13,7 +13,7 @@
                 <div class="flex items-center justify-between p-4">
                     <div>
                         <p class="font-medium">{{ item.product.name }}</p>
-                        <p class="text-sm text-gray-500">{{ item.product.price }} € × {{ item.quantity }}</p>
+                        <p class="text-sm text-gray-500">{{ item.product.price|number_format }} € × {{ item.quantity }}</p>
                     </div>
                     <div class="flex items-center gap-3">
                         <form method="post" action="{{ path('app_cart_update', {id: item.id}) }}" class="flex items-center gap-2">
@@ -29,7 +29,7 @@
             {% endfor %}
         </div>
         <div class="flex items-center justify-between mt-6">
-            <span class="text-xl font-bold">Total : {{ (cart.totalCents / 100)|number_format(2) }} €</span>
+            <span class="text-xl font-bold">Total : {{ (cart.totalCents / 100)|number_format }} €</span>
             <a href="{{ path('app_checkout') }}" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">Passer commande</a>
         </div>
     {% endif %}

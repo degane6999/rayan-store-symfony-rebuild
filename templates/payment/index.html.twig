@@ -9,12 +9,12 @@
         {% for item in order.items %}
             <div class="flex justify-between p-4 text-sm">
                 <span>{{ item.productNameSnapshot }} × {{ item.quantity }}</span>
-                <span>{{ item.unitPriceSnapshot }} €</span>
+                <span>{{ item.unitPriceSnapshot|number_format }} €</span>
             </div>
         {% endfor %}
         <div class="flex justify-between p-4 font-bold">
             <span>Total à payer</span>
-            <span>{{ order.totalAmount }} €</span>
+            <span>{{ order.totalAmount|number_format }} €</span>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
 
     <form method="post" action="{{ path('app_order_pay', {orderNumber: order.orderNumber}) }}" class="flex items-center gap-4">
         <input type="hidden" name="_token" value="{{ csrf_token('order-pay-' ~ order.id) }}">
-        <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">Payer {{ order.totalAmount }} €</button>
+        <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">Payer {{ order.totalAmount|number_format }} €</button>
         <a href="{{ path('app_order_show', {orderNumber: order.orderNumber}) }}" class="text-sm text-gray-500">Payer plus tard</a>
     </form>
 </div>

@@ -23,7 +23,7 @@ class ProductCardTest extends DatabaseWebTestCase
         $crawler = $client->request('GET', '/catalogue');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('body', 'Apple');
-        $this->assertSelectorTextContains('.line-through', '1329.00');
+        $this->assertSelectorTextContains('.line-through', "1\u{a0}329,00");
         $this->assertSelectorTextContains('.discount-badge', '-8%');
     }
 

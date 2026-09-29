@@ -8,12 +8,12 @@
         {% for item in cart.items %}
             <div class="flex justify-between text-sm py-1">
                 <span>{{ item.product.name }} × {{ item.quantity }}</span>
-                <span>{{ item.product.price }} €</span>
+                <span>{{ item.product.price|number_format }} €</span>
             </div>
         {% endfor %}
         <div class="flex justify-between font-bold pt-3 mt-3 border-t border-gray-100">
             <span>Total</span>
-            <span>{{ (cart.totalCents / 100)|number_format(2) }} €</span>
+            <span>{{ (cart.totalCents / 100)|number_format }} €</span>
         </div>
     </div>
 

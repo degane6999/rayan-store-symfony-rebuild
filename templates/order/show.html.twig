@@ -9,11 +9,11 @@
         {% for item in order.items %}
             <div class="flex justify-between p-4 text-sm">
                 <span>{{ item.productNameSnapshot }} × {{ item.quantity }}</span>
-                <span>{{ item.unitPriceSnapshot }} €</span>
+                <span>{{ item.unitPriceSnapshot|number_format }} €</span>
             </div>
         {% endfor %}
     </div>
-    <p class="text-xl font-bold mb-6">Total : {{ order.totalAmount }} €</p>
+    <p class="text-xl font-bold mb-6">Total : {{ order.totalAmount|number_format }} €</p>
 
     {% if order.paid %}
         <p class="text-sm text-gray-500 mb-6">Payée le {{ order.paidAt|date('d/m/Y à H:i') }} — référence {{ order.paymentReference }}</p>

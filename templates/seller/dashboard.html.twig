@@ -11,7 +11,7 @@
             <div class="flex justify-between items-center p-4">
                 <span>{{ product.name }}</span>
                 <span class="text-sm text-gray-500">Stock : {{ product.stock }}</span>
-                <span class="font-semibold">{{ product.price }} €</span>
+                <span class="font-semibold">{{ product.price|number_format }} €</span>
             </div>
         {% else %}
             <p class="p-4 text-gray-500">Aucun produit.</p>

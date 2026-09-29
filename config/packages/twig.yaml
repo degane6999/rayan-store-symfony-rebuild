@@ -1,5 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    # Prix au format français : 1 229,00 (espace insécable pour les milliers)
+    number_format:
+        decimals: 2
+        decimal_point: ','
+        thousands_separator: "\u00a0"
 
 when@test:
     twig:
