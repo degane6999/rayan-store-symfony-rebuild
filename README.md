@@ -17,7 +17,7 @@ pas rédigés puis laissés de côté.
 
 ---
 
-## Ajout du 29/09/2026 — paiement simulé (fonctionnalité 4 du cahier des charges)
+## 
 
 Après la validation du panier, la commande (statut `pending`) passe par une page
 de paiement **simulé** (`/commande/{numéro}/paiement`) avant la confirmation.
