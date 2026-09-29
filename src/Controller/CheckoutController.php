@@ -43,7 +43,8 @@ class CheckoutController extends AbstractController
             try {
                 $order = $orderService->placeOrder($this->getAppUser(), $form->getData());
 
-                return $this->redirectToRoute('app_order_confirmation', ['orderNumber' => $order->getOrderNumber()]);
+                // Étape suivante : le paiement (simulé), avant la confirmation.
+                return $this->redirectToRoute('app_order_payment', ['orderNumber' => $order->getOrderNumber()]);
             } catch (OutOfStockException $e) {
                 $this->addFlash('error', $e->getMessage());
             } catch (EmptyCartException $e) {
@@ -72,6 +73,10 @@ class CheckoutController extends AbstractController
         $order = $orders->findOneByOrderNumber($orderNumber);
         if (!$order || $order->getUser()->getId() !== $this->getAppUser()->getId()) {
             throw $this->createNotFoundException();
+        }
+        if ($order->isPayable()) {
+            // Pas de confirmation tant que la commande n'est pas payée.
+            return $this->redirectToRoute('app_order_payment', ['orderNumber' => $orderNumber]);
         }
 
         return $this->render('checkout/confirmation.html.twig', ['order' => $order]);

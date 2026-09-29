@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %}Paiement — Rayan.store{% endblock %}
+{% block body %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <p class="text-sm text-gray-500 mb-2">Étape 2 sur 2</p>
+    <h1 class="text-2xl font-bold font-display mb-6">Paiement de la commande</h1>
+
+    <div class="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-100 mb-6">
+        {% for item in order.items %}
+            <div class="flex justify-between p-4 text-sm">
+                <span>{{ item.productNameSnapshot }} × {{ item.quantity }}</span>
+                <span>{{ item.unitPriceSnapshot }} €</span>
+            </div>
+        {% endfor %}
+        <div class="flex justify-between p-4 font-bold">
+            <span>Total à payer</span>
+            <span>{{ order.totalAmount }} €</span>
+        </div>
+    </div>
+
+    <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-sm text-blue-900 mb-6">
+        <p class="font-semibold mb-1">Paiement simulé</p>
+        <p>Aucune donnée bancaire n'est demandée ni enregistrée. Dans une version en production, cette étape serait confiée à un prestataire certifié (Stripe).</p>
+    </div>
+
+    <form method="post" action="{{ path('app_order_pay', {orderNumber: order.orderNumber}) }}" class="flex items-center gap-4">
+        <input type="hidden" name="_token" value="{{ csrf_token('order-pay-' ~ order.id) }}">
+        <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">Payer {{ order.totalAmount }} €</button>
+        <a href="{{ path('app_order_show', {orderNumber: order.orderNumber}) }}" class="text-sm text-gray-500">Payer plus tard</a>
+    </form>
+</div>
+{% endblock %}

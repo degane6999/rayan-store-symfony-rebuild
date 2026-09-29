@@ -7,6 +7,10 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Sans cette variable, Composer lancé en root désactive le plugin symfony/runtime
+# (vendor/autoload_runtime.php manquant → erreur 500).
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 WORKDIR /app
 COPY . /app
 

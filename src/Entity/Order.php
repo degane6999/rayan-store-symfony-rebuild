@@ -59,6 +59,14 @@ class Order
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeImmutable $createdAt;
 
+    /** Date du paiement (simulé). Null tant que la commande n'est pas payée. */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $paidAt = null;
+
+    /** Référence de transaction renvoyée par le service de paiement (simulé). */
+    #[ORM\Column(length: 40, nullable: true)]
+    private ?string $paymentReference = null;
+
     /** @param array<string,string> $shippingAddress */
     public function __construct(User $user, string $orderNumber, array $shippingAddress)
     {
@@ -140,5 +148,45 @@ class Order
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Une commande ne peut être payée qu'une fois, et seulement si elle est
+     * encore en attente (ni annulée, ni déjà confirmée).
+     */
+    public function isPayable(): bool
+    {
+        return self::STATUS_PENDING === $this->status;
+    }
+
+    public function isPaid(): bool
+    {
+        return null !== $this->paidAt;
+    }
+
+    /**
+     * Enregistre le paiement puis confirme la commande en passant par la
+     * machine à états (pending → confirmed).
+     *
+     * @throws \DomainException si la commande n'est pas payable
+     */
+    public function markAsPaid(string $paymentReference, ?\DateTimeImmutable $paidAt = null): void
+    {
+        if (!$this->isPayable()) {
+            throw new \DomainException(sprintf('Order "%s" cannot be paid in status "%s".', $this->orderNumber, $this->status));
+        }
+        $this->transitionTo(self::STATUS_CONFIRMED);
+        $this->paymentReference = $paymentReference;
+        $this->paidAt = $paidAt ?? new \DateTimeImmutable();
+    }
+
+    public function getPaidAt(): ?\DateTimeImmutable
+    {
+        return $this->paidAt;
+    }
+
+    public function getPaymentReference(): ?string
+    {
+        return $this->paymentReference;
     }
 }
