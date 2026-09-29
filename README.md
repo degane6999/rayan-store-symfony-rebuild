@@ -88,11 +88,3 @@ php -S 127.0.0.1:8000 -t public public/index.php   # lancer le site
 Nécessite MariaDB/MySQL accessible via `DATABASE_URL` (voir `.env` /
 `.env.test`), PHP 8.2+ avec les extensions pdo_mysql, intl, mbstring.
 
----
-
-
----
-
-*Ce document et le code associé ont été produits avec l'assistance de
-Claude (Anthropic). Toute utilisation académique doit être conforme au
-règlement de l'établissement concernant l'usage de l'IA.*
