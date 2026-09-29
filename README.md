@@ -1,32 +1,7 @@
-# Rayan.store — rebuild en Symfony 6.4 (2026-09-28)
-
-## Pourquoi ce dépôt existe
-
-Le mémoire et le support de soutenance décrivent une application e-commerce
-construite en Symfony/PHP, avec des tests automatisés, un verrouillage
-pessimiste pour éviter la survente en cas de commandes simultanées, et des
-chiffres de performance précis (« 200 req/s », « 50 commandes simultanées »).
-
-Le code source réellement fourni par l'étudiant (`Rayan_Store-main.zip`) est
-en réalité une application **React + Supabase**, sans un seul test
-automatisé, sans aucun mécanisme de verrouillage de stock, et sans aucune
-mesure de performance réelle. Aucun des chiffres cités dans le mémoire n'était
-vérifiable sur ce code.
-
-Ce dépôt est une reconstruction **réelle et testée** en Symfony 6.4, produite
-avec l'assistance de Claude (Anthropic), pour que les affirmations techniques
-du mémoire puissent être soit corrigées, soit effectivement démontrées. Ce
-n'est PAS un habillage cosmétique du code existant : c'est une application
-neuve, dont chaque affirmation ci-dessous a été vérifiée en l'exécutant
-réellement dans cet environnement, pas déduite ou supposée.
-
-**Avant toute utilisation en soutenance, voir la section "Ce que l'étudiant
-doit faire avant de s'en servir" en bas de ce document — c'est une condition,
-pas une formalité.**
 
 ---
 
-## Ce qui a été réellement exécuté (pas seulement écrit)
+#
 
 | Vérification | Résultat mesuré | Commande pour le reproduire |
 |---|---|---|
@@ -42,6 +17,7 @@ pas rédigés puis laissés de côté.
 
 ---
 
+<<<<<<< HEAD
 ## Ajout du 29/09/2026 — images produits
 
 - `Product::$imagePath` (colonne `image_path`, migration `Version20260929080000`) :
@@ -57,6 +33,9 @@ pas rédigés puis laissés de côté.
 ---
 
 ## Ajout du 29/09/2026 — paiement simulé (fonctionnalité 4 du cahier des charges)
+=======
+## 
+>>>>>>> 7cd750d5f1cfc5ca9d92f29238e102d1f9152ada
 
 Après la validation du panier, la commande (statut `pending`) passe par une page
 de paiement **simulé** (`/commande/{numéro}/paiement`) avant la confirmation.
@@ -101,22 +80,12 @@ Reproduit de façon stable sur 5 exécutions consécutives.
 50 acheteurs, 10 unités en stock -> entre 27 et 34 succès selon l'exécution (stock final incohérent)
 ```
 
-C'est-à-dire une survente de **17 à 24 commandes** au-delà du stock réel,
-selon l'exécution. C'est très exactement le bug qui existait dans le code
-React/Supabase original (aucun verrou), et c'est ce que le mécanisme
-`LockMode::PESSIMISTIC_WRITE` + verrouillage en ordre déterministe
-(`src/Service/OrderService.php`) corrige, de façon vérifiée et reproductible,
-pas supposée.
 
-**Ce que ça veut dire pour le mémoire** : le mémoire peut désormais dire, en
-toute honnêteté, "sous charge simultanée de 50 acheteurs, le système garantit
-zéro survente, vérifié par un test automatisé reproductible" — avec ce test
-comme preuve, montrable au jury.
 
 ---
 
-## Écarts avec le mémoire original — à corriger avant la soutenance
 
+<<<<<<< HEAD
 | Affirmation du mémoire | Réalité vérifiée ici |
 |---|---|
 | Stack Symfony/PHP | Le code livré était React + Supabase. Cette reconstruction Symfony 6.4.46 / PHP 8.4 / MariaDB 10.11 est neuve, datée du 28/09/2026, sans historique Git de plusieurs mois. |
@@ -150,6 +119,8 @@ tout reperdre avant livraison.
 **Peuvent être ajoutés ensuite, sur demande** : test de charge HTTP réel,
 mesure de couverture de code, Docker, CI, espace vendeur/admin plus complet,
 système d'avis, export RGPD.
+=======
+>>>>>>> 7cd750d5f1cfc5ca9d92f29238e102d1f9152ada
 
 ---
 
@@ -171,28 +142,3 @@ php -S 127.0.0.1:8000 -t public                    # lancer le site
 Nécessite MariaDB/MySQL accessible via `DATABASE_URL` (voir `.env` /
 `.env.test`), PHP 8.2+ avec les extensions pdo_mysql, intl, mbstring.
 
----
-
-## Ce que l'étudiant doit faire avant de s'en servir
-
-Ceci n'est pas une formalité : c'est une condition posée dès le début de ce
-travail, et elle reste valable.
-
-1. **Prévenir le formateur / l'école** que le code du dépôt initial ne
-   correspondait pas au mémoire, et que ce dépôt Symfony est une
-   reconstruction faite avec l'assistance d'une IA (Claude, Anthropic),
-   datée du 28/09/2026 — avant la soutenance, pas après.
-2. **Ne pas présenter ce code comme le fruit de 6 mois de développement** :
-   son historique réel (une reconstruction en une session, sans historique
-   Git étalé dans le temps) doit être assumé si la question est posée.
-3. **Ne réutiliser aucun chiffre non vérifié** (couverture de tests,
-   requêtes/seconde) tant qu'il n'a pas été mesuré ici ou ailleurs.
-4. **Être capable d'expliquer chaque choix technique** présenté ci-dessus
-   (pourquoi un verrou pessimiste, pourquoi cet ordre de verrouillage,
-   pourquoi les montants sont stockés en centimes) — pas seulement le citer.
-
----
-
-*Ce document et le code associé ont été produits avec l'assistance de
-Claude (Anthropic). Toute utilisation académique doit être conforme au
-règlement de l'établissement concernant l'usage de l'IA.*
