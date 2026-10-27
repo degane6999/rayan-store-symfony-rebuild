@@ -63,6 +63,11 @@ Comptes de démonstration (mot de passe `password123`) :
 | Gestionnaire du catalogue | `vendeur@rayan.store` |
 | Administrateur | `admin@rayan.store` |
 
+## Mise en production
+
+Nginx + PHP-FPM, secrets hors du dépôt, base sans port exposé, en-têtes de
+sécurité : voir [DEPLOIEMENT.md](DEPLOIEMENT.md).
+
 ## Photos des produits
 
 Les données de démonstration (`php bin/console app:seed`) contiennent 10 produits
@@ -130,6 +135,6 @@ Application Symfony monolithique, comme le prévoit le cahier des charges, avec 
 
 - Écrans d'administration (CRUD produits, commandes, utilisateurs) et changement de statut des commandes
 - Modification du profil, tri du catalogue, réinitialisation du mot de passe
-- Intégration continue (GitHub Actions)
-- Mise en production (Nginx + PHP-FPM, HTTPS, en-têtes de sécurité)
+- Déploiement continu : publication des images et déploiement automatique sur un tag
+- Mise en ligne sur un serveur, avec HTTPS (procédure dans [DEPLOIEMENT.md](DEPLOIEMENT.md))
 - Paiement réel avec Stripe

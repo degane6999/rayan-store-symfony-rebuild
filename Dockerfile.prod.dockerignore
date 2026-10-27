@@ -1,0 +1,10 @@
+.git
+.github
+vendor
+var
+tests
+.env.local
+.env.*.local
+.php-cs-fixer.cache
+.phpunit.result.cache
+docker-compose*.yml

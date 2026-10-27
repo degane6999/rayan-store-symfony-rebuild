@@ -4,7 +4,7 @@
 #   2. migrations Doctrine sur une base MariaDB 10.11 de test
 #   3. analyse statique (PHPStan niveau 8) et style de code (PHP-CS-Fixer)
 #   4. les 3 suites PHPUnit : unitaires, fonctionnels, concurrence
-#   5. construction de l'image Docker de l'application
+#   5. construction des images Docker de production (PHP-FPM et Nginx)
 name: CI
 
 on:
@@ -81,12 +81,14 @@ jobs:
         run: vendor/bin/phpunit
 
   docker:
-    name: Construction de l'image Docker
+    name: Construction des images de production
     runs-on: ubuntu-latest
     needs: tests
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v4
 
-      - name: Construire l'image de l'application
-        run: docker build -t rayan-store:${{ github.sha }} .
+      - name: Construire les images (PHP-FPM et Nginx)
+        run: |
+          docker build -f Dockerfile.prod --target app -t rayan-store-app:${{ github.sha }} .
+          docker build -f Dockerfile.prod --target web -t rayan-store-web:${{ github.sha }} .

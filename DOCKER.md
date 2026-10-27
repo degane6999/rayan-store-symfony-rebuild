@@ -26,4 +26,16 @@ Comptes de démo (mot de passe `password123`) :
 Pour arrêter : `Ctrl+C` puis `docker compose down` (ajoute `-v` pour aussi
 supprimer les données de la base et repartir de zéro au prochain lancement).
 
+## Tests dans le conteneur
 
+Le conteneur est configuré en développement (`APP_ENV=dev`) : forcez
+l'environnement de test pour PHPUnit.
+
+```bash
+docker compose exec -e APP_ENV=test app php vendor/bin/phpunit
+```
+
+## Mise en production
+
+Pour la configuration de production (Nginx + PHP-FPM, secrets hors du dépôt,
+base sans port exposé), voir [DEPLOIEMENT.md](DEPLOIEMENT.md).
