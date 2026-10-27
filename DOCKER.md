@@ -26,14 +26,4 @@ Comptes de démo (mot de passe `password123`) :
 Pour arrêter : `Ctrl+C` puis `docker compose down` (ajoute `-v` pour aussi
 supprimer les données de la base et repartir de zéro au prochain lancement).
 
-## Important — non testé dans mon environnement
 
-Contrairement à tout le reste de ce dépôt (tests, PHPStan, parcours complet),
-je n'ai **pas pu exécuter ce `docker-compose.yml` moi-même** : le
-sandbox où j'ai travaillé n'a pas de démon Docker actif. Le fichier suit un
-schéma standard pour une app Symfony + MariaDB, mais **teste-le avant de t'y
-fier pour la soutenance** — lance `docker compose up --build` à l'avance, pas
-la veille au soir.
-
-Si quelque chose ne démarre pas, lance `docker compose logs app` et
-`docker compose logs db` et montre-moi le message d'erreur exact.

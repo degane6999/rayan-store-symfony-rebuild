@@ -5,8 +5,7 @@ parameters:
     excludePaths:
         - src/Kernel.php
     ignoreErrors:
-        # Doctrine assigns entity $id via reflection at INSERT time (GeneratedValue),
-        # which PHPStan can't see without the phpstan-doctrine extension (not
-        # installable here: Packagist is blocked and it's not needed for the
-        # app to be correct, only for this one class of false positive).
+        # Doctrine attribue l'identifiant $id par réflexion lors de l'INSERT
+        # (GeneratedValue). Sans l'extension phpstan-doctrine, PHPStan ne le voit
+        # pas : on ignore uniquement ce faux positif.
         - '#Property App\\Entity\\\w+::\$id \(int\|null\) is never assigned int so it can be removed from the property type\.#'
