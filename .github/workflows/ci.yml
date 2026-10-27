@@ -1,0 +1,92 @@
+# Intégration continue de Rayan.store
+# À chaque push sur main ou develop, et à chaque pull request :
+#   1. installation des dépendances et audit de sécurité (composer audit)
+#   2. migrations Doctrine sur une base MariaDB 10.11 de test
+#   3. analyse statique (PHPStan niveau 8) et style de code (PHP-CS-Fixer)
+#   4. les 3 suites PHPUnit : unitaires, fonctionnels, concurrence
+#   5. construction de l'image Docker de l'application
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  tests:
+    name: Tests et qualité (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 8.2 : version minimale déclarée dans composer.json ; 8.4 : version de l'image Docker
+        php: ['8.2', '8.4']
+
+    services:
+      db:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          # Base de test : Doctrine ajoute le suffixe _test en environnement test
+          MARIADB_DATABASE: rayan_store_test
+          MARIADB_USER: rayan
+          MARIADB_PASSWORD: rayan
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_mysql, intl, zip
+          coverage: none
+          tools: composer:v2
+
+      - name: Vérifier composer.json
+        run: composer validate --no-check-publish
+
+      - name: Installer les dépendances
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Audit de sécurité des dépendances (OWASP A06)
+        # Non bloquant au départ : une alerte s'affiche dans le journal sans faire échouer la CI.
+        continue-on-error: true
+        run: composer audit
+
+      - name: Appliquer les migrations sur la base de test
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Analyse statique (PHPStan niveau 8)
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=512M
+
+      - name: Style de code (PHP-CS-Fixer)
+        if: matrix.php == '8.4'
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --allow-risky=yes
+
+      - name: Tests (PHPUnit — unitaires, fonctionnels, concurrence)
+        env:
+          # Les avertissements de dépréciation de Symfony restent affichés mais ne font pas échouer la CI.
+          SYMFONY_DEPRECATIONS_HELPER: weak
+        run: vendor/bin/phpunit
+
+  docker:
+    name: Construction de l'image Docker
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Construire l'image de l'application
+        run: docker build -t rayan-store:${{ github.sha }} .
